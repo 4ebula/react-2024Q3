@@ -8,7 +8,7 @@ export class SearchComponent extends React.Component<SearchComponentProps> {
       <form className="search" onSubmit={(e) => this.handleFormSubmit(e)}>
         <input
           placeholder="Enter request"
-          defaultValue={this.props.searchDefault}
+          defaultValue={this.props.query}
           name="search"
           type="text"
         />

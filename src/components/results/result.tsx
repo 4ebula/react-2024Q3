@@ -20,11 +20,21 @@ export class ResultsComponent extends React.Component<ResultComponentProps> {
     }
   }
 
+  static count = 0;
+
   private async requestItems(query: string | null): Promise<ApiResponse[]> {
     let data;
 
+    console.log('Query', ResultsComponent.count++, query);
+
     if (query) {
       const res = await fetch(`${this.url}/${query}`);
+      if (res.status === 404) {
+        this.setState(() => {
+          throw new Error('Items not found');
+        });
+        return [];
+      }
       data = [await res.json()];
     } else {
       const res = await fetch(`${this.url}?limit=${this.limit}`);
