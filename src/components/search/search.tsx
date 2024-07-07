@@ -1,9 +1,8 @@
 import React, { ReactNode } from 'react';
+import { SearchComponentProps } from '../../models/props.model';
 import './search.scss';
 
-type SearchComp = { searchDefault: string, changeSearch: (value: string) => void }
-
-export class SearchComponent extends React.Component<SearchComp> {
+export class SearchComponent extends React.Component<SearchComponentProps> {
   render(): ReactNode {
     return (
       <form className="search" onSubmit={(e) => this.handleFormSubmit(e)}>
@@ -21,11 +20,7 @@ export class SearchComponent extends React.Component<SearchComp> {
   private handleFormSubmit(e: React.FormEvent): void {
     e.preventDefault();
     const form = new FormData(e.target as HTMLFormElement);
-
     const formData = Object.fromEntries(form.entries());
-
-    const { search: searchPhrase } = formData;
-    this.props.changeSearch(searchPhrase as string);
-    console.log(searchPhrase);
+    this.props.changeSearch(formData.search as string);
   }
 }

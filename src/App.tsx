@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { SearchComponent } from './components/search/search';
+import { ResultsComponent } from './components/results/result';
 import './App.scss';
 
 export class App extends React.Component {
@@ -9,8 +10,9 @@ export class App extends React.Component {
   };
 
   searchChangeCb = (value: string): void => {
-    this.setState({ searchDefault: value });
-    localStorage.setItem(this.searchDefaultKey, value);
+    const searchStr = value.trim().toLowerCase();
+    this.setState({ searchDefault: searchStr });
+    localStorage.setItem(this.searchDefaultKey, searchStr);
   };
 
   componentDidMount(): void {
@@ -22,10 +24,13 @@ export class App extends React.Component {
 
   render(): ReactNode {
     return (
-      <SearchComponent
-        searchDefault={this.state.searchDefault}
-        changeSearch={this.searchChangeCb}
-      ></SearchComponent>
+      <>
+        <SearchComponent
+          searchDefault={this.state.searchDefault}
+          changeSearch={this.searchChangeCb}
+        ></SearchComponent>
+        <ResultsComponent query={this.state.searchDefault}></ResultsComponent>
+      </>
     );
   }
 }
