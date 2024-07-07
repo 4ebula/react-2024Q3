@@ -8,22 +8,16 @@ import { AppState } from './models/props.model';
 export class App extends React.Component {
   private readonly searchDefaultKey = 'query';
   state: AppState = {
-    query: '',
+    query: localStorage.getItem(this.searchDefaultKey),
     hasError: false,
   };
 
   searchChangeCb = (value: string): void => {
     const query = value.trim().toLowerCase();
-    this.setState({ query });
+    this.setState({ query, hasError: false });
     localStorage.setItem(this.searchDefaultKey, query);
   };
 
-  componentDidMount(): void {
-    const query = localStorage.getItem(this.searchDefaultKey);
-    if (query) {
-      this.setState({ query });
-    }
-  }
 
   render(): ReactNode {
     return (

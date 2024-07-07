@@ -2,11 +2,13 @@ import React, { ReactNode } from 'react';
 import { ResultItemComponent } from '../result-item/result-item';
 import { ApiResponse } from '../../models/api-response.model';
 import { ResultComponentProps } from '../../models/props.model';
+import { SpinnerComponent } from '../spinner/spinner';
 import './result.scss';
 
 export class ResultsComponent extends React.Component<ResultComponentProps> {
   private readonly url = 'https://pokeapi.co/api/v2/pokemon';
   private readonly limit = 10;
+  private loading = false;
 
   state = {
     items: [],
@@ -14,23 +16,19 @@ export class ResultsComponent extends React.Component<ResultComponentProps> {
 
   componentDidUpdate(prevProps: { query: string }): void {
     if (prevProps.query !== this.props.query) {
-      this.requestItems(this.props.query).then((items) => {
-        this.setState({ items });
-      });
+      this.requestData();
     }
   }
 
-  static count = 0;
-
   private async requestItems(query: string | null): Promise<ApiResponse[]> {
     let data;
-
-    console.log('Query', ResultsComponent.count++, query);
+    this.loading = true;
 
     if (query) {
       const res = await fetch(`${this.url}/${query}`);
       if (res.status === 404) {
         this.setState(() => {
+          this.loading = false;
           throw new Error('Items not found');
         });
         return [];
@@ -46,17 +44,26 @@ export class ResultsComponent extends React.Component<ResultComponentProps> {
       );
     }
 
+    this.loading = false;
     return data;
   }
 
   componentDidMount(): void {
+    this.requestData();
+  }
+
+  private requestData(): void {
     this.requestItems(this.props.query).then((res) => {
-      this.setState({ items: res });
+      this.setState({ items: res, loading: false });
     });
   }
 
   render(): ReactNode {
     const { items } = this.state;
+    if (this.loading) {
+      return <SpinnerComponent></SpinnerComponent>;
+    }
+
     return (
       <ul>
         {items.map(

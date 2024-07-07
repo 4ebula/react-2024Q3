@@ -9,12 +9,12 @@ export interface ResultItemComponentProps {
 }
 
 export interface SearchComponentProps {
-  query: string;
+  query: string | null;
   changeSearch: (value: string) => void;
 }
 
 export interface AppState {
-  query: string;
+  query: string | null;
   hasError: boolean;
   error?: Error;
 }
