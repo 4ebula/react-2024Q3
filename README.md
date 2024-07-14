@@ -18,3 +18,14 @@ Also, code is automatically lined on commits
 ```bash
 npm run format:fix
 ```
+
+## Tests
+- To execute tests, run
+```bash
+npm run test
+```
+
+- To display coverage, run
+```bash
+npm run test:coverage
+```
