@@ -1,9 +1,33 @@
-li {
-  display: flex;
-  gap: 15px;
+.name {
+  // width: 100px;
+  // text-align: start;
+  text-transform: capitalize;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 2rem;
 }
 
-.name {
-  width: 100px;
-  text-align: start;
+.list-item {
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #000;
+  border-radius: 5px;
+}
+
+.image-container {
+  width: 300px;
+  height: 300px;
+
+  img {
+    width: 290px;
+    height: 290px;
+    object-fit: cover;
+  }
+}
+
+.stats {
+  font-size: 1.3rem;
+  margin-top: 0;
 }

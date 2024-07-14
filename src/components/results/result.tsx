@@ -5,13 +5,17 @@ import { ResultComponentProps } from '../../models/props.model';
 import { SpinnerComponent } from '../spinner/spinner';
 import './result.scss';
 
-export class ResultsComponent extends React.Component<ResultComponentProps> {
+export class ResultsComponent extends React.Component<
+  ResultComponentProps,
+  { loading: boolean; items: ApiResponse[] }
+> {
   private readonly url = 'https://pokeapi.co/api/v2/pokemon';
   private readonly limit = 10;
-  private loading = false;
+  // private loading = false;
 
   state = {
     items: [],
+    loading: false,
   };
 
   componentDidUpdate(prevProps: { query: string }): void {
@@ -22,15 +26,16 @@ export class ResultsComponent extends React.Component<ResultComponentProps> {
 
   private async requestItems(query: string | null): Promise<ApiResponse[]> {
     let data;
-    this.loading = true;
+    this.setState({ loading: true });
 
     if (query) {
       const res = await fetch(`${this.url}/${query}`);
       if (res.status === 404) {
-        this.setState(() => {
-          this.loading = false;
-          throw new Error('Items not found');
-        });
+        // this.setState(() => {
+        //   this.loading = false;
+        //   // throw new Error('Items not found');
+        // });
+        this.setState({ loading: false });
         return [];
       }
       data = [await res.json()];
@@ -44,7 +49,8 @@ export class ResultsComponent extends React.Component<ResultComponentProps> {
       );
     }
 
-    this.loading = false;
+    // this.loading = false;
+    this.setState({ loading: false });
     return data;
   }
 
@@ -60,23 +66,29 @@ export class ResultsComponent extends React.Component<ResultComponentProps> {
 
   render(): ReactNode {
     const { items } = this.state;
-    if (this.loading) {
+    if (this.state.loading) {
       return <SpinnerComponent></SpinnerComponent>;
     }
 
-    return (
-      <ul>
-        {items.map(
-          ({ name, weight, height }, i): ReactNode => (
-            <ResultItemComponent
-              name={name}
-              weight={weight}
-              height={height}
-              key={i}
-            ></ResultItemComponent>
-          ),
-        )}
-      </ul>
-    );
+    if (this.state.items.length) {
+      return (
+        <ul>
+          {items.map((el: ApiResponse, i): ReactNode => {
+            const { name, weight, height } = el;
+            return (
+              <ResultItemComponent
+                name={name}
+                weight={weight}
+                height={height}
+                imgUrl={el.sprites.other['official-artwork'].front_default}
+                key={i}
+              ></ResultItemComponent>
+            );
+          })}
+        </ul>
+      );
+    } else {
+      return <div>No items found</div>;
+    }
   }
 }

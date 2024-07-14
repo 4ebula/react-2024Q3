@@ -18,33 +18,18 @@ export class App extends React.Component {
     localStorage.setItem(this.searchDefaultKey, query);
   };
 
-
   render(): ReactNode {
     return (
       <>
-        <ErrorBtnComponent></ErrorBtnComponent>
-        <SearchComponent
-          query={this.state.query}
-          changeSearch={this.searchChangeCb}
-        ></SearchComponent>
-        {!this.state.hasError ? (
-          <ResultsComponent query={this.state.query}></ResultsComponent>
-        ) : (
-          <p>{this.state.error?.message}</p>
-        )}
+        <div className="search-container">
+          <ErrorBtnComponent></ErrorBtnComponent>
+          <SearchComponent
+            query={this.state.query}
+            changeSearch={this.searchChangeCb}
+          ></SearchComponent>
+        </div>
+        <ResultsComponent query={this.state.query}></ResultsComponent>
       </>
     );
-  }
-
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error: Error) {
-    this.logError(error);
-  }
-
-  private logError(error: Error): void {
-    console.log('Error: ', error);
   }
 }

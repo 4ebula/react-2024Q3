@@ -5,9 +5,12 @@ import './result-item.scss';
 export class ResultItemComponent extends React.Component<ResultItemComponentProps> {
   render(): ReactNode {
     return (
-      <li>
+      <li className="list-item">
         <p className="name">{this.props.name}</p>
-        <p>
+        <div className="image-container">
+          <img src={this.props.imgUrl} alt="" />
+        </div>
+        <p className="stats">
           Weight: {this.props.weight}, Height: {this.props.height}
         </p>
       </li>

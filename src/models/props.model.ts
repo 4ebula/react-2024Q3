@@ -4,6 +4,7 @@ export interface ResultComponentProps {
 
 export interface ResultItemComponentProps {
   name: string;
+  imgUrl: string;
   weight: number;
   height: number;
 }
