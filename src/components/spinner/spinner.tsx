@@ -1,8 +1,6 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import './spinner.scss';
 
-export class SpinnerComponent extends React.PureComponent {
-  render(): React.ReactNode {
-    return <div className="spinner"></div>;
-  }
+export function SpinnerComponent(): ReactNode {
+  return <div className="spinner"></div>;
 }

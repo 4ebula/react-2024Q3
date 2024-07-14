@@ -13,9 +13,3 @@ export interface SearchComponentProps {
   query: string | null;
   changeSearch: (value: string) => void;
 }
-
-export interface AppState {
-  query: string | null;
-  hasError: boolean;
-  error?: Error;
-}

@@ -1,35 +1,30 @@
-import React, { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { SearchComponent } from './components/search/search';
 import { ResultsComponent } from './components/results/result';
-import './App.scss';
 import { ErrorBtnComponent } from './components/error-btn/error-btn';
-import { AppState } from './models/props.model';
+import './App.scss';
 
-export class App extends React.Component {
-  private readonly searchDefaultKey = 'query';
-  state: AppState = {
-    query: localStorage.getItem(this.searchDefaultKey),
-    hasError: false,
-  };
+export function App(): ReactNode {
+  const searchDefaultKey = 'query';
 
-  searchChangeCb = (value: string): void => {
+  const [query, setQuery] = useState(localStorage.getItem(searchDefaultKey));
+
+  const searchChangeCb = (value: string): void => {
     const query = value.trim().toLowerCase();
-    this.setState({ query, hasError: false });
-    localStorage.setItem(this.searchDefaultKey, query);
+    setQuery(query);
+    localStorage.setItem(searchDefaultKey, query);
   };
 
-  render(): ReactNode {
-    return (
-      <>
-        <div className="search-container">
-          <ErrorBtnComponent></ErrorBtnComponent>
-          <SearchComponent
-            query={this.state.query}
-            changeSearch={this.searchChangeCb}
-          ></SearchComponent>
-        </div>
-        <ResultsComponent query={this.state.query}></ResultsComponent>
-      </>
-    );
-  }
+  return (
+    <>
+      <div className="search-container">
+        <ErrorBtnComponent></ErrorBtnComponent>
+        <SearchComponent
+          query={query}
+          changeSearch={searchChangeCb}
+        ></SearchComponent>
+      </div>
+      <ResultsComponent query={query}></ResultsComponent>
+    </>
+  );
 }

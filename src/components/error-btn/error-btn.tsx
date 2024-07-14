@@ -1,18 +1,16 @@
-import React from 'react';
+import { ReactNode, useState } from 'react';
 import './error-btn.scss';
 
-export class ErrorBtnComponent extends React.PureComponent {
-  throw = (): void => {
-    this.setState(() => {
+export function ErrorBtnComponent(): ReactNode {
+  const [_, setError] = useState(null);
+  const throwEror = (): void => {
+    setError(() => {
       throw new Error('Error occured');
     });
   };
-
-  render(): React.ReactNode {
-    return (
-      <button className="error-btn" onClick={this.throw}>
-        Throw
-      </button>
-    );
-  }
+  return (
+    <button className="error-btn" onClick={throwEror}>
+      Throw
+    </button>
+  );
 }
