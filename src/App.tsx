@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './Router.tsx';
-import { ThemeContext } from './theme/theme.tsx';
-import { Themes } from './theme/themes.enum.ts';
+import { ThemeContext } from './contexts/theme.tsx';
+import { Themes } from './contexts/themes.enum.ts';
 import './App.scss';
 
 export function App(): React.ReactNode {

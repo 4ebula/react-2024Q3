@@ -5,6 +5,7 @@
   align-items: center;
   border: 1px solid #000;
   border-radius: 5px;
+  position: relative;
 }
 
 .name {
@@ -28,4 +29,27 @@
 .stats {
   font-size: 1.3rem;
   margin-top: 0;
+}
+
+.close {
+  position: absolute;
+  display: flex;
+  right: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+
+  justify-content: center;
+  align-items: center;
+
+  button {
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    line-height: 10px;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
 }

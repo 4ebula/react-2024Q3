@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from '../../theme/theme';
-import { Themes } from '../../theme/themes.enum';
+import { ThemeContext } from '../../contexts/theme';
+import { Themes } from '../../contexts/themes.enum';
 import './theme-btn.scss';
 
 

@@ -13,6 +13,6 @@ export interface ResponseResults {
 }
 
 export interface ApiResponse {
-  results: { name: string; url: string }[];
+  results: { name: string; url: string, id?: number }[];
   count: number;
 }

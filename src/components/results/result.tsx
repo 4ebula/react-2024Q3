@@ -1,10 +1,11 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useContext, useEffect, useState } from 'react';
 import { ApiResponse, ResponseResults } from '../../models/api-response.model';
 import { ResultComponentProps } from '../../models/props.model';
 import { SpinnerComponent } from '../spinner/spinner';
 import { PaginatorComponent } from '../paginator/paginator';
 import { ResultItemComponent } from '../result-item/result-item';
 import './result.scss';
+import { ShowCardContext } from '../../contexts/show-card';
 
 const PAGE_LIMIT = 10;
 
@@ -20,6 +21,7 @@ export function ResultsComponent(props: ResultComponentProps): ReactNode {
   const [items, setItems] = useState<ResponseResults[]>([]);
   const [pages, setPages] = useState(0);
   const [offset, setOffset] = useState(0);
+  const { setShowCard } = useContext(ShowCardContext);
 
   async function requestItems(
     query: string | null,
@@ -42,9 +44,7 @@ export function ResultsComponent(props: ResultComponentProps): ReactNode {
       );
       const { results, count } = (await res.json()) as ApiResponse;
       setPages(calculateAmountOfPages(count));
-      data = await Promise.all(
-        results.map((el) => fetch(el.url).then((res) => res.json())),
-      );
+      data = results.map((el) => ({ ...el, id: +el.url.split('/').at(-2)! }));
     }
 
     setIsLoading(false);
@@ -74,6 +74,7 @@ export function ResultsComponent(props: ResultComponentProps): ReactNode {
             </div>
             <ul>
               {items.map((el, i): ReactNode => {
+                console.log(el);
                 return (
                   <ResultItemComponent data={el} key={i}></ResultItemComponent>
                 );
@@ -84,6 +85,7 @@ export function ResultsComponent(props: ResultComponentProps): ReactNode {
       </PaginatorComponent>
     );
   } else {
+    setShowCard(false);
     return <div>No items found</div>;
   }
 }

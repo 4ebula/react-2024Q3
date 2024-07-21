@@ -1,11 +1,24 @@
-import { ReactNode } from 'react';
-import { CardComponentProps } from '../../models/props.model';
+import { ReactNode, useContext, useEffect, useState } from 'react';
+// import { CardComponentProps } from '../../models/props.model';
 import './card.scss';
+import { ResponseResults } from '../../models/api-response.model';
+import { SelectedItem } from '../../contexts/selected-item';
+import { ShowCardContext } from '../../contexts/show-card';
 
-export function CardComponent(
-  props: CardComponentProps,
-): ReactNode {
-  const { name, imgUrl, weight, height } = props;
+export function CardComponent(): ReactNode {
+  const { id } = useContext(SelectedItem);
+  const [attr, setAttr] = useState({} as ResponseResults);
+  const { setShowCard } = useContext(ShowCardContext);
+  const { name, weight, height } = attr;
+  const imgUrl = attr.sprites?.other['official-artwork'].front_default;
+  useEffect(() => {
+    fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+      .then((res) => res.json())
+      .then((res) => {
+        setAttr(res);
+      });
+  }, [id]);
+
   return (
     <li className="card">
       <p className="name">{name}</p>
@@ -15,6 +28,9 @@ export function CardComponent(
       <p className="stats">
         Weight: {weight}, Height: {height}
       </p>
+      <div className="close">
+        <button onClick={() => setShowCard(false)}>X</button>
+      </div>
     </li>
   );
 }
