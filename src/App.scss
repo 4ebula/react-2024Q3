@@ -1,7 +1,21 @@
 #root {
-  padding: 2rem;
   text-align: center;
   width: 100%;
+}
+
+.app {
+  padding: 2rem;
+  height: 100vh;
+
+  &.light {
+    color: #213547;
+    background-color: #ffffff;
+  }
+
+  &.dark {
+    background-color: #213547;
+    color: #ffffff;
+  }
 }
 
 @keyframes logo-spin {

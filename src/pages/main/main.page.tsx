@@ -1,8 +1,7 @@
 import React from 'react';
 import { useStorage } from '../../hooks/storage.hook';
-import { ErrorBtnComponent } from '../../components/error-btn/error-btn';
-import { SearchComponent } from '../../components/search/search';
 import { ResultsComponent } from '../../components/results/result';
+import { HeaderComponent } from '../../components/header/header';
 import './main.page.scss';
 
 export function MainPage(): React.ReactNode {
@@ -12,13 +11,7 @@ export function MainPage(): React.ReactNode {
 
   return (
     <>
-      <div className="search-container">
-        <ErrorBtnComponent></ErrorBtnComponent>
-        <SearchComponent
-          query={query}
-          changeSearch={setQuery}
-        ></SearchComponent>
-      </div>
+      <HeaderComponent query={query} setQuery={setQuery}></HeaderComponent>
       <ResultsComponent query={query}></ResultsComponent>
     </>
   );

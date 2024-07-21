@@ -31,3 +31,8 @@ export interface PaginatorProps extends PropsWithChildren {
 export interface SpinnerComponentProps {
   size: number;
 }
+
+export interface HeaderComponentProps {
+  query: string;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
+}
