@@ -1,4 +1,4 @@
-export interface ApiResponse {
+export interface ResponseResults {
   name: string;
   weight: number;
   height: number;
@@ -7,7 +7,12 @@ export interface ApiResponse {
     other: {
       'official-artwork': {
         front_default: string;
-      }
-    }
-  }
+      };
+    };
+  };
+}
+
+export interface ApiResponse {
+  results: { name: string; url: string }[];
+  count: number;
 }

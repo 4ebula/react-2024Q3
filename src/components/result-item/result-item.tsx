@@ -1,20 +1,20 @@
-import { ReactNode } from 'react';
-import { ResultItemComponentProps } from '../../models/props.model';
+import React from 'react';
 import './result-item.scss';
+import { ResultItemProps } from '../../models/props.model';
 
-export function ResultItemComponent(
-  props: ResultItemComponentProps,
-): ReactNode {
-  const { name, imgUrl, weight, height } = props;
+export function ResultItemComponent({
+  data,
+}: ResultItemProps): React.ReactNode {
+  const { name, id } = data;
   return (
-    <li className="list-item">
-      <p className="name">{name}</p>
-      <div className="image-container">
-        <img src={imgUrl} alt="" />
+    <li className="result-item">
+      <div>
+        <input type="checkbox" />
       </div>
-      <p className="stats">
-        Weight: {weight}, Height: {height}
-      </p>
+      <div className="result-item-info">
+        <p>{id}</p>
+        <p>{name}</p>
+      </div>
     </li>
   );
 }

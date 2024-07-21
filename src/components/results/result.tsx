@@ -1,19 +1,30 @@
 import { ReactNode, useEffect, useState } from 'react';
-import { ResultItemComponent } from '../result-item/result-item';
-import { ApiResponse } from '../../models/api-response.model';
+import { ApiResponse, ResponseResults } from '../../models/api-response.model';
 import { ResultComponentProps } from '../../models/props.model';
 import { SpinnerComponent } from '../spinner/spinner';
+import { PaginatorComponent } from '../paginator/paginator';
+import { ResultItemComponent } from '../result-item/result-item';
 import './result.scss';
+
+const PAGE_LIMIT = 10;
+
+function calculateAmountOfPages(count: number): number {
+  return Math.ceil(count / PAGE_LIMIT);
+}
 
 export function ResultsComponent(props: ResultComponentProps): ReactNode {
   const url = 'https://pokeapi.co/api/v2/pokemon';
-  const limit = 16;
 
   const { query } = props;
   const [isLoading, setIsLoading] = useState(false);
-  const [items, setItems] = useState<ApiResponse[]>([]);
+  const [items, setItems] = useState<ResponseResults[]>([]);
+  const [pages, setPages] = useState(0);
+  const [offset, setOffset] = useState(0);
 
-  async function requestItems(query: string | null): Promise<ApiResponse[]> {
+  async function requestItems(
+    query: string | null,
+    pageOffset: number,
+  ): Promise<ResponseResults[]> {
     let data;
     setIsLoading(true);
 
@@ -24,11 +35,13 @@ export function ResultsComponent(props: ResultComponentProps): ReactNode {
         return [];
       }
       data = [await res.json()];
+      setPages(1);
     } else {
-      const res = await fetch(`${url}?limit=${limit}`);
-      const { results } = (await res.json()) as {
-        results: { name: string; url: string }[];
-      };
+      const res = await fetch(
+        `${url}?offset=${10 * pageOffset}&limit=${PAGE_LIMIT}`,
+      );
+      const { results, count } = (await res.json()) as ApiResponse;
+      setPages(calculateAmountOfPages(count));
       data = await Promise.all(
         results.map((el) => fetch(el.url).then((res) => res.json())),
       );
@@ -39,32 +52,36 @@ export function ResultsComponent(props: ResultComponentProps): ReactNode {
   }
 
   useEffect(() => {
-    requestItems(query).then((res) => {
+    requestItems(query, offset).then((res) => {
       setIsLoading(false);
       setItems(res);
     });
-  }, [query]);
-
-  if (isLoading) {
-    return <SpinnerComponent></SpinnerComponent>;
-  }
+  }, [query, offset]);
 
   if (items.length) {
     return (
-      <ul>
-        {items.map((el, i): ReactNode => {
-          const { name, weight, height } = el;
-          return (
-            <ResultItemComponent
-              name={name}
-              weight={weight}
-              height={height}
-              imgUrl={el.sprites.other['official-artwork'].front_default}
-              key={i}
-            ></ResultItemComponent>
-          );
-        })}
-      </ul>
+      <PaginatorComponent pages={pages} offset={offset} setOffset={setOffset}>
+        {isLoading ? (
+          <div className="spinner-container">
+            <SpinnerComponent size={50}></SpinnerComponent>
+          </div>
+        ) : (
+          <>
+            <div className="table-header">
+              <p></p>
+              <p>id</p>
+              <p>name</p>
+            </div>
+            <ul>
+              {items.map((el, i): ReactNode => {
+                return (
+                  <ResultItemComponent data={el} key={i}></ResultItemComponent>
+                );
+              })}
+            </ul>
+          </>
+        )}
+      </PaginatorComponent>
     );
   } else {
     return <div>No items found</div>;
