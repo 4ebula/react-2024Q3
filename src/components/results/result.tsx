@@ -74,7 +74,6 @@ export function ResultsComponent(props: ResultComponentProps): ReactNode {
             </div>
             <ul>
               {items.map((el, i): ReactNode => {
-                console.log(el);
                 return (
                   <ResultItemComponent data={el} key={i}></ResultItemComponent>
                 );

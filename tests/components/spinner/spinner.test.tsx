@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 
 describe('Spinner', () => {
   test('should render', () => {
-    const { container } = render(<SpinnerComponent />);
+    const { container } = render(<SpinnerComponent size={50} />);
     const div = container.querySelector('.spinner');
     expect(div).toBeInTheDocument();
   });
