@@ -1,0 +1,126 @@
+$btn-border: 3px;
+
+.paginator {
+  position: relative;
+  width: 300px;
+
+  & > div {
+    margin: 0;
+  }
+
+  &-output {
+    height: 265px;
+    width: 245px;
+    border: 1px solid #000;
+    border-radius: 5px;
+  }
+
+  &-control {
+    height: 50px;
+    display: flex;
+    padding: 0;
+    margin: 0;
+
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+}
+
+.control {
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  &.disabled {
+    cursor: default;
+
+    & > .chevron {
+      border-color: #838383;
+    }
+  }
+}
+
+.chevron {
+  display: block;
+  margin: 0;
+  padding: 0;
+  width: 10px;
+  height: 10px;
+  margin-top: 9px;
+  border-bottom: $btn-border solid #0094d9;
+  border-left: $btn-border solid #0094d9;
+
+  &:hover {
+    border-color: #4557bb;
+  }
+}
+
+.left {
+  margin-left: 10.6px;
+  transform: rotate(45deg);
+}
+
+.right {
+  margin-left: 0;
+  transform: rotate(225deg);
+}
+
+.pages {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  display: flex;
+
+  max-width: 220px;
+  overflow-x: hidden;
+
+  ul {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  li {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & span {
+      display: block;
+    }
+  }
+}
+
+.active {
+  font-weight: 700;
+  border-color: transparent;
+  background-color: #4557bb;
+  color: #fff;
+}
+
+.number {
+  display: inline-block;
+  line-height: 1;
+
+  border: 2px solid transparent;
+  border-radius: 50%;
+
+  text-decoration: none;
+  color: #0094d9;
+
+  &:hover {
+    color: #4557bb;
+  }
+}
+
+.paginator-output {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}

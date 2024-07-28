@@ -1,0 +1,15 @@
+.search {
+  display: flex;
+  gap: 5px;
+  flex-grow: 1;
+
+  input {
+    height: 42px;
+    font-size: 18px;
+    padding: 0 5px;
+  }
+
+  button {
+    margin-left: 5px;
+  }
+}
