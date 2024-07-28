@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { DownloadBtnComponent } from '../../../src/components/download-btn/download-btn';
 import * as utils from '../../../src/utils/cvs';
@@ -9,20 +9,24 @@ describe('Download button', () => {
     global.URL.createObjectURL = jest.fn();
   });
 
-  test('should render', () => {
+  test('should render', async () => {
     const { container } = render(renderWithStore(<DownloadBtnComponent />));
     const btn = container.querySelector('button');
-    expect(btn).toBeInTheDocument();
-    expect(btn?.textContent).toBe('Download');
+    await waitFor(() => {
+      expect(btn).toBeInTheDocument();
+      expect(btn?.textContent).toBe('Download');
+    });
   });
 
-  test('should start download', () => {
-    const downloadFn = jest.spyOn(utils, 'downloadCSV');
+  test('should start download', async () => {
+    const downloadFn = jest.spyOn(utils, 'convertToCSV');
     const { container } = render(renderWithStore(<DownloadBtnComponent />));
-    const btn = container.querySelector('button');
-    btn?.click();
+    await waitFor(() => {
+      const btn = container.querySelector('button');
+      btn?.click();
 
-    expect(downloadFn).toHaveBeenCalled();
+      expect(downloadFn).toHaveBeenCalled();
+    });
   });
 
   afterEach(() => {

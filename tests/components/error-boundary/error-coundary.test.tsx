@@ -1,11 +1,11 @@
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { useState } from 'react';
 
 import { ErrorBoundary } from '../../../src/components/error-boundary/error-boundary';
 
 describe('Error Boundary', () => {
-  test('should execute', () => {
+  test('should execute', async () => {
     const ThrowError = () => {
       const [_, setError] = useState(null);
       const throwEror = (): void => {
@@ -24,10 +24,13 @@ describe('Error Boundary', () => {
         <ThrowError />
       </ErrorBoundary>,
     );
-    const errorBtn = container.querySelector('.error-btn') as HTMLButtonElement;
-    errorBtn?.click();
 
-    const btn = container.querySelector('button');
-    expect(btn).toBeInTheDocument();
+    await waitFor(() => {
+      const errorBtn = container.querySelector('.error-btn') as HTMLButtonElement;
+      errorBtn?.click();
+
+      const btn = container.querySelector('button');
+      expect(btn).toBeInTheDocument();
+    });
   });
 });
