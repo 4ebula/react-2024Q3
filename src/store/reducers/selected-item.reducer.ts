@@ -2,6 +2,7 @@ import {
   SELECTED_ITEM_ACTIONS,
   SELECTED_ITEM_ADD,
   SELECTED_ITEM_REMOVE,
+  SELECTED_ITEM_REMOVE_All,
 } from '../actions/selected-item.actions';
 
 export interface SelectedItemState {
@@ -33,6 +34,8 @@ export const selectedItemsReducer = (
         ...state,
         selectedItems: state.selectedItems.filter(id => id !== action.payload),
       };
+    case SELECTED_ITEM_REMOVE_All:
+      return { ...state, selectedItems: [] };
     default:
       return state;
   }

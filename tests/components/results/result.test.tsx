@@ -2,6 +2,7 @@ import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ResultsComponent } from '../../../src/components/results/result';
 import { ShowCardContext } from '../../../src/contexts/show-card';
+import { renderWithStore } from '../../utils/test-utils';
 
 jest.mock('../../../src/components/result-item/result-item.tsx', () => {
   return {
@@ -20,11 +21,13 @@ describe('Results', () => {
       status: 200,
     } as unknown as Response);
     const { container } = render(
-      <ShowCardContext.Provider
-        value={{ showCard: false, setShowCard: () => {} }}
-      >
-        <ResultsComponent query="test" />
-      </ShowCardContext.Provider>,
+      renderWithStore(
+        <ShowCardContext.Provider
+          value={{ showCard: false, setShowCard: () => {} }}
+        >
+          <ResultsComponent query="test" />
+        </ShowCardContext.Provider>,
+      ),
     );
 
     await waitFor(() => {
@@ -50,11 +53,13 @@ describe('Results', () => {
       status: 200,
     } as unknown as Response);
     const { container } = render(
-      <ShowCardContext.Provider
-        value={{ showCard: false, setShowCard: () => {} }}
-      >
-        <ResultsComponent query="test" />
-      </ShowCardContext.Provider>,
+      renderWithStore(
+        <ShowCardContext.Provider
+          value={{ showCard: false, setShowCard: () => {} }}
+        >
+          <ResultsComponent query="test" />
+        </ShowCardContext.Provider>,
+      ),
     );
 
     await waitFor(() => {
@@ -90,11 +95,13 @@ describe('Results', () => {
       status: 200,
     } as unknown as Response);
     const { container } = render(
-      <ShowCardContext.Provider
-        value={{ showCard: false, setShowCard: () => {} }}
-      >
-        <ResultsComponent query={null} />
-      </ShowCardContext.Provider>,
+      renderWithStore(
+        <ShowCardContext.Provider
+          value={{ showCard: false, setShowCard: () => {} }}
+        >
+          <ResultsComponent query={null} />
+        </ShowCardContext.Provider>,
+      ),
     );
 
     await waitFor(() => {

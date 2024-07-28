@@ -23,6 +23,12 @@ export function ResultItemComponent({
     setChecked(!checked);
   };
 
+  store.subscribe(() => {
+    if (!store.getState().selected.selectedItems.length) {
+      setChecked(false);
+    }
+  });
+
   return (
     <li className="result-item">
       <div>

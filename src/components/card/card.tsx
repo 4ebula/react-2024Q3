@@ -1,9 +1,8 @@
 import { ReactNode, useContext, useEffect, useState } from 'react';
-// import { CardComponentProps } from '../../models/props.model';
-import './card.scss';
 import { ResponseResults } from '../../models/api-response.model';
 import { SelectedItem } from '../../contexts/selected-item';
 import { ShowCardContext } from '../../contexts/show-card';
+import './card.scss';
 
 export function CardComponent(): ReactNode {
   const { id } = useContext(SelectedItem);

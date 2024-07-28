@@ -3,6 +3,7 @@ import { ResultItemComponent } from '../../../src/components/result-item/result-
 import '@testing-library/jest-dom';
 import { SelectedItem } from '../../../src/contexts/selected-item';
 import { ShowCardContext } from '../../../src/contexts/show-card';
+import { renderWithStore } from '../../utils/test-utils';
 
 describe('ResultItemComponent', () => {
   const i = 0;
@@ -23,7 +24,7 @@ describe('ResultItemComponent', () => {
 
   test('should render', () => {
 
-    const { container } = render(
+    const { container } = render(renderWithStore(
       <ShowCardContext.Provider
         value={{ showCard: false, setShowCard: () => {} }}
       >
@@ -31,7 +32,7 @@ describe('ResultItemComponent', () => {
           <ResultItemComponent data={data} key={i} />,
         </SelectedItem.Provider>
       </ShowCardContext.Provider>,
-    );
+    ));
     const item = container.querySelector('.result-item');
     expect(item).toBeInTheDocument();
 
@@ -47,7 +48,7 @@ describe('ResultItemComponent', () => {
 
     const setId = jest.fn();
 
-    const { container } = render(
+    const { container } = render(renderWithStore(
       <ShowCardContext.Provider
         value={{ showCard: false, setShowCard: () => {} }}
       >
@@ -55,7 +56,7 @@ describe('ResultItemComponent', () => {
           <ResultItemComponent data={data} key={i} />,
         </SelectedItem.Provider>
       </ShowCardContext.Provider>,
-    );
+    ));
     const item = container.querySelector('.result-item');
     expect(item).toBeInTheDocument();
 

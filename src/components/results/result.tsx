@@ -8,6 +8,9 @@ import './result.scss';
 import { ShowCardContext } from '../../contexts/show-card';
 import store from '../../store/store';
 import { SetLoadedItems } from '../../store/actions/loaded-items.actions';
+import { SelectComponent } from '../select/select';
+import { useSelector } from 'react-redux';
+import { IRootState } from '../../store/reducers';
 
 const PAGE_LIMIT = 10;
 
@@ -75,6 +78,11 @@ export function ResultsComponent(props: ResultComponentProps): ReactNode {
     });
   }, [query, offset]);
 
+
+  const amount = useSelector(
+    (state: IRootState) => state.selected.selectedItems.length,
+  );
+
   if (items.length) {
     return (
       <div className="paginator-container">
@@ -103,6 +111,7 @@ export function ResultsComponent(props: ResultComponentProps): ReactNode {
             </>
           )}
         </PaginatorComponent>
+        {amount ? <SelectComponent></SelectComponent> : null }
       </div>
     );
   } else {
