@@ -15,7 +15,14 @@ export function PaginatorComponent({
   const [pageArr, setPageArr] = useState([1]);
   const shiftStep = pages - 5;
 
+  const resetPages = () => {
+    setShift(0);
+    setActive(1);
+    setLeftDisabled(true);
+  };
+
   useEffect(() => {
+    resetPages();
     if (pages === 1) {
       setLeftDisabled(true);
       setRightDisabled(true);
